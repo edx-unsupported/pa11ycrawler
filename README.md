@@ -3,6 +3,8 @@
 Pa11ycrawler
 ============
 
+test
+
 pa11ycrawler is a [Scrapy](http://doc.scrapy.org/en/latest/index.html)
 spider that runs a [Pa11y](http://pa11y.org/) check on every page of an
 Open edX installation, to audit it for accessibility purposes.

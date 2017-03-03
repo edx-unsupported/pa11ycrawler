@@ -142,7 +142,7 @@ class EdxSpider(CrawlSpider):
                     all_blocks="true",
                 )
             )
-            self.start_urls = [api_url]
+            self.start_url = api_url
         self.allowed_domains = [domain]
 
     def handle_error(self, failure):
@@ -308,8 +308,16 @@ class EdxSpider(CrawlSpider):
                 errback=self.handle_error
             )
         else:
-            for url in self.start_urls:
-                yield self.make_requests_from_url(url)
+            yield scrapy.Request(
+                self.start_url,
+                callback=self.analyze_url_list,
+                errback=self.handle_error
+            )
+
+    def analyze_url_list(self, response):
+        response = json.loads(response.text)
+        for key, block in response['blocks'].iteritems():
+            yield self.make_requests_from_url(block['student_view_url'])
 
     def parse_item(self, response):
         """

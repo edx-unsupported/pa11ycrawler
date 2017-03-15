@@ -51,16 +51,16 @@ def main():
     parser = make_parser()
     args = parser.parse_args()
     data_dir = Path(args.data_dir).expand()
-    if not data_dir.isdir():
+    if not data_dir.isdir():  # pylint: disable=no-value-for-parameter
         msg = "Data directory {dir} does not exist".format(dir=args.data_dir)
         raise ValueError(msg)
-    data_filenames = [name for name in data_dir.files()
+    data_filenames = [name for name in data_dir.files()  # pylint: disable=no-value-for-parameter
                       if name.endswith(".json")]
     if not data_filenames:
         msg = "Data directory {dir} contains no JSON files".format(dir=args.data_dir)
         raise ValueError(msg)
     output_dir = Path(args.output_dir).expand()
-    output_dir.makedirs_p()
+    output_dir.makedirs_p()  # pylint: disable=no-value-for-parameter
 
     return render_html(data_dir, output_dir)
 

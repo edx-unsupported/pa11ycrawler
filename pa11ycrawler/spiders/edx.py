@@ -158,6 +158,7 @@ class EdxSpider(CrawlSpider):
             self.logger.error('HttpError on %s', response.url)
             self.logger.error('HttpError Code: %s', response.status)
             if response.status in (401, 403):
+                print "hey"
                 # If the error is from invalid login, tell the user
                 self.logger.error(
                     "Credentials failed. Either add/update the current credentials "

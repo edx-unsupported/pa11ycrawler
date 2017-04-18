@@ -19,8 +19,9 @@ DEFAULT_ITEM_CLASS = 'pa11ycrawler.items.A11yItem'
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'pa11ycrawler.pipelines.DuplicatesPipeline': 200,
-    'pa11ycrawler.pipelines.DropDRFPipeline': 250,
-    'pa11ycrawler.pipelines.Pa11yPipeline': 300,
+    'pa11ycrawler.pipelines.DropDRFPipeline': 300,
+    'pa11ycrawler.pipelines.ActivateBlockIdPipeline': 400,
+    'pa11ycrawler.pipelines.Pa11yPipeline': 500,
 }
 
 # Other items you are likely to want to override ---------------

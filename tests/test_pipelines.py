@@ -5,7 +5,7 @@ from datetime import datetime
 import subprocess as sp
 from scrapy.exceptions import DropItem, NotConfigured
 from pa11ycrawler.pipelines import (
-    DuplicatesPipeline, DropDRFPipeline, Pa11yPipeline
+    DuplicatesPipeline, DropDRFPipeline, ActivateBlockIdPipeline, Pa11yPipeline
 )
 from pa11ycrawler.pipelines.pa11y import DEVNULL, load_pa11y_results
 try:
@@ -102,6 +102,31 @@ def test_drf_pipeline():
     item = {"url": "http://courses.edx.org/course/whatever"}
     processed = drf_pl.process_item(item, spider)
     assert item == processed
+
+
+def test_activate_block_id_pipeline():
+    abi_pl = ActivateBlockIdPipeline()
+    spider = object()
+
+    item1 = {"url": "/abcdef/"}
+    processed1 = abi_pl.process_item(item1, spider)
+    assert item1 == processed1
+
+    item2 = {"url": "/abc/whoa/?activate_block_id=deadbeef"}
+    processed2 = abi_pl.process_item(item2, spider)
+    assert item2 == processed2
+
+    item3 = {"url": "/abc/whoa/?activate_block_id=w00t"}
+    with pytest.raises(DropItem):
+        abi_pl.process_item(item3, spider)
+
+    item4 = {"url": "/abc/whoa/8?activate_block_id=hihi"}
+    with pytest.raises(DropItem):
+        abi_pl.process_item(item4, spider)
+
+    item5 = {"url": "/abc/whoa/"}
+    processed5 = abi_pl.process_item(item5, spider)
+    assert item5 == processed5
 
 
 def test_pa11y_happy_path(mocker, tmpdir):

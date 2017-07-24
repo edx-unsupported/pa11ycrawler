@@ -100,7 +100,7 @@ def test_start_with_auto_auth():
     assert len(requests) == 1
     request = requests[0]
     assert isinstance(request, scrapy.Request)
-    expected_url = 'http://localhost:8000/auto_auth?course_id=course-v1%3AedX%2BTest101%2Bcourse&staff=true'
+    expected_url = 'http://localhost:8000/auto_auth?course_id=course-v1%3AedX%2BTest102%2Bcourse&staff=true'
     assert urls_are_equal(request.url, expected_url)
     assert request.method == "GET"
     assert request.headers == {
@@ -130,7 +130,7 @@ def test_auto_auth_response(mocker):
     assert len(requests) == 1
     request = requests[0]
     assert isinstance(request, scrapy.Request)
-    expected_url = 'http://localhost:8000/api/courses/v1/blocks/?course_id=course-v1%3AedX%2BTest101%2Bcourse&depth=all&all_blocks=true'
+    expected_url = 'http://localhost:8000/api/courses/v1/blocks/?course_id=course-v1%3AedX%2BTest102%2Bcourse&depth=all&all_blocks=true'
     assert urls_are_equal(request.url, expected_url)
     assert request.method == "GET"
     assert request.headers == {}
